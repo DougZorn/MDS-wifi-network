@@ -1,6 +1,6 @@
-#include "cc2500_REG_V2.h"
-#include "cc2500_VAL_V2.h"
-#include "cc2500init_V2.h"
+#include "cc2500_REG.h"
+#include "cc2500_VAL.h"
+#include "cc2500init.h"
 #include "read_write.h"
 
 #include <SPI.h>
