@@ -1,10 +1,10 @@
 #include <SPI.h>
 #include "read_write.h"
-#include "cc2500_VAL_V2.h"
-#include "cc2500_REG_V2.h"
+#include "cc2500_VAL.h"
+#include "cc2500_REG.h"
 
-#ifndef INIT_CC2500_V2_H
-#define INIT_CC2500_V2_H
+#ifndef INIT_CC2500_H
+#define INIT_CC2500_H
 
 char PATABLE[] = {0xff,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 void init_CC2500_V2(){

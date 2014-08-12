@@ -1,6 +1,6 @@
 #include <SPI.h>
-#include "cc2500_VAL_V2.h"
-#include "cc2500_REG_V2.h"
+#include "cc2500_VAL.h"
+#include "cc2500_REG.h"
 #ifndef READ_WRITE_H
 #define READ_WRITE_H
 
@@ -21,19 +21,19 @@ long previousTXTimeoutMillis = 0;
 
 void WriteReg(char addr, char value) //see page 22 of cc2500 data sheet for timing
 {
-  digitalWrite(2,LOW);
+  digitalWrite(10,LOW);
   while (digitalRead(MISO) == HIGH)
   {
   };    
   SPI.transfer(addr);
   SPI.transfer(value);
-  digitalWrite(2,HIGH);
+  digitalWrite(10,HIGH);
 }
 
 void WriteTX_burst(char addr, char value[], byte count)
 {  
   addr = addr + 0x40;
-  digitalWrite(2,LOW);  
+  digitalWrite(10,LOW);  
   while (digitalRead(MISO) == HIGH) {
   };
   SPI.transfer(addr); 
@@ -41,37 +41,37 @@ void WriteTX_burst(char addr, char value[], byte count)
   {
     SPI.transfer(value[i]);
   }
-  digitalWrite(2,HIGH);  
+  digitalWrite(10,HIGH);  
 }
 
 char ReadReg(char addr){
   addr = addr + 0x80;
-  digitalWrite(2,LOW);
+  digitalWrite(10,LOW);
   while (digitalRead(MISO) == HIGH) {
     };
   char x = SPI.transfer(addr);
   char y = SPI.transfer(0);
-  digitalWrite(2,HIGH);
+  digitalWrite(10,HIGH);
   return y;  
 }
 
 char ReadOnly_Reg(char addr){
   addr = addr + 0xC0;
-  digitalWrite(2,LOW);
+  digitalWrite(10,LOW);
   while (digitalRead(MISO) == HIGH) {
     };
   char x = SPI.transfer(addr);
   char y = SPI.transfer(0);
-  digitalWrite(2,HIGH);
+  digitalWrite(10,HIGH);
   return y;  
 }
 
 void SendStrobe(char strobe){
-  digitalWrite(2,LOW);  
+  digitalWrite(10,LOW);  
   while (digitalRead(MISO) == HIGH) {
   };  
   SPI.transfer(strobe);
-  digitalWrite(2,HIGH); 
+  digitalWrite(10,HIGH); 
 }
 
 int listenForPacket(byte recvPacket[]) {
@@ -95,9 +95,9 @@ int listenForPacket(byte recvPacket[]) {
   }
   else
   {
-    ReadReg(CC2500_RXFIFO);
-    ReadReg(CC2500_RXFIFO);
-    for(int i = 0; i < 7; i++)
+    //ReadReg(CC2500_RXFIFO);
+    //ReadReg(CC2500_RXFIFO);
+    for(int i = 0; i < 9; i++)
     {
       recvPacket[i] = ReadReg(CC2500_RXFIFO);     
       Serial.println(recvPacket[i],HEX);

@@ -1,29 +1,5 @@
- /*Sync word qualifier mode = No preamble/sync 
- CRC autoflush = false 
- Channel spacing = 199.951172 
- Data format = Normal mode 
- Data rate = 2.39897 
- RX filter BW = 203.125000 
- Preamble count = 4 
- Whitening = true 
- Address config = Address check and 0 (0x00) broadcast 
- Carrier frequency = 2433.599762 
- Device address = 255 
- TX power = 1 
- Manchester enable = false 
- CRC enable = true 
- Deviation = 38.085938 
- Packet length mode = Variable packet length mode. Packet length configured by the first byte after sync word 
- Packet length = 255 
- Modulation format = 2-FSK 
- Base frequency = 2432.999908 
- Modulated = true 
- Channel number = 3 
- PA table
-*/
-
-#ifndef CC2500_REG_V2_H
-#define CC2500_REG_V2_H
+#ifndef CC2500_REG_H
+#define CC2500_REG_H
  
 #define PA_TABLE {0xff,0x00,0x00,0x00,0x00,0x00,0x00,0x00,}
 #define REG_IOCFG2                0x0000    //GDO2Output Pin Configuration 
