@@ -95,9 +95,9 @@ int listenForPacket(byte recvPacket[]) {
   }
   else
   {
-    ReadReg(CC2500_RXFIFO);
-    ReadReg(CC2500_RXFIFO);
-    for(int i = 0; i < 7; i++)
+    //ReadReg(CC2500_RXFIFO);
+    //ReadReg(CC2500_RXFIFO);
+    for(int i = 0; i < 9; i++)
     {
       recvPacket[i] = ReadReg(CC2500_RXFIFO);     
       Serial.println(recvPacket[i],HEX);
