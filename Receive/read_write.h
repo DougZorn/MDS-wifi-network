@@ -74,7 +74,8 @@ void SendStrobe(char strobe){
   digitalWrite(10,HIGH); 
 }
 
-int listenForPacket(byte recvPacket[]) {
+int listenForPacket(int recvPacket[]) {
+  int temp = 0;
   previousTXTimeoutMillis = millis();
   SendStrobe(CC2500_RX);  
   while(!digitalRead(MISO))   
@@ -94,16 +95,22 @@ int listenForPacket(byte recvPacket[]) {
     return 0;    
   }
   else
-  {
-    //ReadReg(CC2500_RXFIFO);
-    //ReadReg(CC2500_RXFIFO);
-    for(int i = 0; i < 9; i++)
+  {    
+    for(int i = 0; i < 10; i++)
     {
-      recvPacket[i] = ReadReg(CC2500_RXFIFO);     
-      Serial.println(recvPacket[i],HEX);
-    }    
-    Serial.println("");
-    
+      recvPacket[i] = ReadReg(CC2500_RXFIFO);           
+    }
+	if (recvPacket[8] >= 128)
+	{
+		temp = ((recvPacket[8] - 256)/2 - 71);
+	}
+	else
+	{
+		temp = (recvPacket[8]/2 - 71);
+	}
+    Serial.println(temp,DEC);
+	Serial.println((byte)recvPacket[9],DEC);
+	Serial.println("");    
   }  
   SendStrobe(CC2500_IDLE);  
   SendStrobe(CC2500_FRX);

@@ -21,22 +21,16 @@
 //char TP[] = {7, 0x05, 'H','E','L','L','O','!'}; //packet length (includes address and data), device adress 
 void setup(){
   Serial.begin(9600);  
-  pinMode(2, OUTPUT);
   SPI.setClockDivider(SPI_CLOCK_DIV2);
-  SPI.setDataMode(SPI_MODE0);  
-  //pinMode(SS,OUTPUT);
+  SPI.setDataMode(SPI_MODE0); 
   SPI.begin();
-  digitalWrite(2,HIGH);
   SendStrobe(CC2500_SRES);
-  init_CC2500_V2();  
-  pinMode(9, OUTPUT);
-    
+  init_CC2500_V2();     
 }
 void loop()
 {    
   sendPacket(0x25,0x35,0x10,0x20,0x12,0x13); 
 } 
-
 
 void sendPacket(byte name, byte target, byte distance, byte sensorData, byte hop, byte end_byte)
 {
