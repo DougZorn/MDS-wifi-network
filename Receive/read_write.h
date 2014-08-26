@@ -1,6 +1,8 @@
 #include <SPI.h>
 #include "cc2500_VAL.h"
 #include "cc2500_REG.h"
+#include <math.h>
+
 #ifndef READ_WRITE_H
 #define READ_WRITE_H
 
@@ -76,6 +78,7 @@ void SendStrobe(char strobe){
 
 int listenForPacket(int recvPacket[]) {
   int temp = 0;
+  double distance;
   previousTXTimeoutMillis = millis();
   SendStrobe(CC2500_RX);  
   while(!digitalRead(MISO))   
@@ -108,8 +111,15 @@ int listenForPacket(int recvPacket[]) {
 	{
 		temp = (recvPacket[8]/2 - 71);
 	}
+	Serial.print("dBm: ");
     Serial.println(temp,DEC);
-	Serial.println((byte)recvPacket[9],DEC);
+	
+	distance = pow( log(log10(-1*temp)/1.5270)/0.1584 ,10);
+	
+	Serial.print("distance: ");
+    Serial.println(distance,DEC);	
+	
+	//Serial.println((byte)recvPacket[9],DEC);
 	Serial.println("");    
   }  
   SendStrobe(CC2500_IDLE);  
