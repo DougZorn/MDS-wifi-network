@@ -114,7 +114,7 @@ int listenForPacket(int recvPacket[]) {
 	Serial.print("dBm: ");
     Serial.println(temp,DEC);
 	
-	distance = pow( log(log10(-1*temp)/1.5270)/0.1584 ,10);
+	distance = pow(10, log(log10(-1*temp)/1.5270)/0.1584);
 	
 	Serial.print("distance: ");
     Serial.println(distance,DEC);	
