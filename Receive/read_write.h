@@ -33,19 +33,7 @@ void WriteReg(char addr, char value) //see page 22 of cc2500 data sheet for timi
   digitalWrite(10,HIGH);
 }
 
-void WriteTX_burst(char addr, char value[], byte count)
-{  
-  addr = addr + 0x40;
-  digitalWrite(10,LOW);  
-  while (digitalRead(MISO) == HIGH) {
-  };
-  SPI.transfer(addr); 
-  for(byte i = 0; i<count; i++)
-  {
-    SPI.transfer(value[i]);
-  }
-  digitalWrite(10,HIGH);  
-}
+
 
 char ReadReg(char addr){
   addr = addr + 0x80;
@@ -133,5 +121,34 @@ int listenForPacket(QueueList<byte> *list)
 	SendStrobe(CC2500_FRX);
 	return 1;	
 }
+
+
+void WriteTX_burst(char addr, QueueList<byte> *list, byte count)
+{  
+  addr = addr + 0x40;
+  digitalWrite(10,LOW);  
+  while (digitalRead(MISO) == HIGH) {
+  };
+  SPI.transfer(addr); 
+  for(byte i = 0; i<count; i++)
+  {
+    SPI.transfer(list->pop());
+  }
+  digitalWrite(10,HIGH);  
+}
+
+void sendPacket(QueueList<byte> *list, byte length)
+{
+	byte loop = length + 1;
+	SendStrobe(CC2500_IDLE); 
+	SendStrobe(CC2500_FTX);	
+	WriteTX_burst(CC2500_TXFIFO,list,loop);		
+	SendStrobe(CC2500_TX); 
+	while (!digitalRead(MISO)) { }    
+	while (digitalRead(MISO)) { }    
+	//do not add code between the strobe and while loops otherwise it will miss the conditions !!!!!!!!!!!!!!
+	SendStrobe(CC2500_IDLE); 
+}
+
 
 #endif

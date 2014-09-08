@@ -2,6 +2,7 @@
 #include "cc2500_VAL.h"
 #include "cc2500init.h"
 #include "read_write.h"
+#include <QueueList.h>
 
 #include <SPI.h>
 #define CC2500_RX      0x34      // Enable RX. Perform calibration if enabled
@@ -18,31 +19,24 @@
 #define SEND_FORLOOP 0x08
 #define ADDRESS 0xFF
 
+QueueList <byte> myQueue;
+
 //char TP[] = {7, 0x05, 'H','E','L','L','O','!'}; //packet length (includes address and data), device adress 
 void setup(){
+  
   Serial.begin(9600);  
   SPI.setClockDivider(SPI_CLOCK_DIV2);
   SPI.setDataMode(SPI_MODE0); 
   SPI.begin();
   SendStrobe(CC2500_SRES);
-  init_CC2500_V2();     
+  init_CC2500_V2();
+  
 }
 void loop()
-{    
-  sendPacket(0x25,0x35,0x10,0x20,0x12,0x13); 
+{ 
+  myQueue.push(0x2);
+  myQueue.push(0xFF);
+  myQueue.push(0x12);  
+  sendPacket(&myQueue,2); 
 } 
-
-void sendPacket(byte name, byte target, byte distance, byte sensorData, byte hop, byte end_byte)
-{
-  char fullPacket[] = {PACKET_LENGTH, ADDRESS, name, target, distance, sensorData, hop, end_byte}; 
-  SendStrobe(CC2500_IDLE); 
-  SendStrobe(CC2500_FTX);
-  WriteTX_burst(CC2500_TXFIFO,fullPacket,SEND_FORLOOP);
-  //do not add code between the strobe and while loops otherwise it will miss the conditions !!!!!!!!!!!!!!
-  SendStrobe(CC2500_TX); 
-  while (!digitalRead(MISO)) { }    
-  while (digitalRead(MISO)) { }    
-  //do not add code between the strobe and while loops otherwise it will miss the conditions !!!!!!!!!!!!!!
-  SendStrobe(CC2500_IDLE); 
-}
 
