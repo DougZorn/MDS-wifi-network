@@ -90,9 +90,17 @@ double convert_dBm(int RSSI)
 	return dBm;
 }
 
+double convert_distance(double dBm)
+{
+	double distance = 0;
+	distance = pow(10, log(log10(-1*dBm)/1.5270)/0.1584);
+	return distance;
+}
+
+
 int listenForPacket(int recvPacket[]) {
   int temp = 0;
-  double distance;
+  double distance = 0;
   previousTXTimeoutMillis = millis();
   SendStrobe(CC2500_RX);  
   while(!digitalRead(MISO))   
@@ -120,9 +128,10 @@ int listenForPacket(int recvPacket[]) {
 	
 	temp = convert_dBm(recvPacket[8]);	
 	Serial.print("dBm: ");
+	
     Serial.println(temp,DEC);
 	Serial.print("distance: ");
-	distance = pow(10, log(log10(-1*temp)/1.5270)/0.1584);
+	distance = convert_distance(temp);	
     Serial.println(distance,DEC);		
 	//Serial.println((byte)recvPacket[9],DEC);
 	Serial.println("");    
