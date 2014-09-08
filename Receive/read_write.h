@@ -2,6 +2,7 @@
 #include "cc2500_VAL.h"
 #include "cc2500_REG.h"
 #include <math.h>
+#include <QueueList.h>
 
 #ifndef READ_WRITE_H
 #define READ_WRITE_H
@@ -97,48 +98,40 @@ double convert_distance(double dBm)
 	return distance;
 }
 
-
-int listenForPacket(int recvPacket[]) {
-  int temp = 0;
-  double distance = 0;
-  previousTXTimeoutMillis = millis();
-  SendStrobe(CC2500_RX);  
-  while(!digitalRead(MISO))   
-  {
-    if(millis()-previousTXTimeoutMillis > TX_TIMEOUT){
-     return 0; 
-    }
-  }
-  while(digitalRead(MISO)) 
-  {
-     if(millis()-previousTXTimeoutMillis > TX_TIMEOUT){
-       return 0; 
-     }
-  } 
-  if(ReadOnly_Reg(0x3B)==0)
-  {    
-    return 0;    
-  }
-  else
-  {    
-    for(int i = 0; i < 10; i++)
-    {
-      recvPacket[i] = ReadReg(CC2500_RXFIFO);           
-    }	
+int listenForPacket(QueueList<byte> *list)
+{
+	while(!(list->isEmpty()))
+	{
+		list->pop();
+	}	
+	previousTXTimeoutMillis = millis();
+	SendStrobe(CC2500_RX);
+	while(!digitalRead(MISO))   
+	{
+		if(millis()-previousTXTimeoutMillis > TX_TIMEOUT){
+		return 0; 
+		}
+	}
+	while(digitalRead(MISO)) 
+	{
+		if(millis()-previousTXTimeoutMillis > TX_TIMEOUT){
+		return 0; 
+		}
+	}
+	if(ReadOnly_Reg(0x3B)==0) //status register that returns number of bytes in RX FIFO
+	{    
+		return 0;    
+	}
+	list->push(ReadReg(CC2500_RXFIFO)+2);
+	int loopCount = list->peek(); //+2 to loopCount due to append of RSSI and LQI
 	
-	temp = convert_dBm(recvPacket[8]);	
-	Serial.print("dBm: ");
-	
-    Serial.println(temp,DEC);
-	Serial.print("distance: ");
-	distance = convert_distance(temp);	
-    Serial.println(distance,DEC);		
-	//Serial.println((byte)recvPacket[9],DEC);
-	Serial.println("");    
-  }  
-  SendStrobe(CC2500_IDLE);  
-  SendStrobe(CC2500_FRX);
-  return 1;
+	for(int i = 0; i <loopCount; i++)
+	{
+		list->push(ReadReg(CC2500_RXFIFO));
+	}
+	SendStrobe(CC2500_IDLE);  
+	SendStrobe(CC2500_FRX);
+	return 1;	
 }
 
 #endif

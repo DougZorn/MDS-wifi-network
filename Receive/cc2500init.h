@@ -2,6 +2,7 @@
 #include "read_write.h"
 #include "cc2500_VAL.h"
 #include "cc2500_REG.h"
+#include <QueueList.h>
 
 #ifndef INIT_CC2500_H
 #define INIT_CC2500_H
