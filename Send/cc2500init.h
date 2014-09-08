@@ -56,7 +56,9 @@ void init_CC2500_V2(){
 	WriteReg(REG_TEST2,VAL_TEST2);                  //various test settings 
 	WriteReg(REG_TEST1,VAL_TEST1);                  //various test settings 
 	WriteReg(REG_TEST0,VAL_TEST0);                  //various test settings 
-    WriteReg(0x3E,0xFF);
+        WriteReg(0x3E,0xFF);
 }
-#endif
 
+
+
+#endif

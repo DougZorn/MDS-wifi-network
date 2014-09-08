@@ -20,8 +20,7 @@ void setup()
 void loop()
 {
 	if(listenForPacket(&myQueue))
-	{
-		//Serial.println(myQueue.peek(),DEC);
+	{		
 		int count = myQueue.pop();
 		for(int i = 0; i < count; i++)
 		{
