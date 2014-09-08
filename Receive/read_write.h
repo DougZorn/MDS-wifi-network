@@ -76,6 +76,20 @@ void SendStrobe(char strobe){
   digitalWrite(10,HIGH); 
 }
 
+double convert_dBm(int RSSI)
+{
+	int dBm = 0;	
+	if (RSSI >= 128)
+	{
+		dBm = ((RSSI - 256)/2 - 71);
+	}
+	else
+	{
+		dBm = (RSSI/2 - 71);
+	}	
+	return dBm;
+}
+
 int listenForPacket(int recvPacket[]) {
   int temp = 0;
   double distance;
@@ -102,23 +116,14 @@ int listenForPacket(int recvPacket[]) {
     for(int i = 0; i < 10; i++)
     {
       recvPacket[i] = ReadReg(CC2500_RXFIFO);           
-    }
-	if (recvPacket[8] >= 128)
-	{
-		temp = ((recvPacket[8] - 256)/2 - 71);
-	}
-	else
-	{
-		temp = (recvPacket[8]/2 - 71);
-	}
+    }	
+	
+	temp = convert_dBm(recvPacket[8]);	
 	Serial.print("dBm: ");
     Serial.println(temp,DEC);
-	
-	distance = pow(10, log(log10(-1*temp)/1.5270)/0.1584);
-	
 	Serial.print("distance: ");
-    Serial.println(distance,DEC);	
-	
+	distance = pow(10, log(log10(-1*temp)/1.5270)/0.1584);
+    Serial.println(distance,DEC);		
 	//Serial.println((byte)recvPacket[9],DEC);
 	Serial.println("");    
   }  
