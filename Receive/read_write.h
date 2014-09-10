@@ -3,6 +3,7 @@
 #include "cc2500_REG.h"
 #include <math.h>
 #include <QueueList.h>
+#include "node_config.h"
 
 #ifndef READ_WRITE_H
 #define READ_WRITE_H

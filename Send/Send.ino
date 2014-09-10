@@ -26,7 +26,6 @@ void setup()
 #define WAIT_4_ACK 0x02
 #define LISTEN_4_PACKET 0x03
 byte state = INITIAL_STATE;
-byte next_state = 0;
 byte packet[] = {0x01, 0xFF};
 
 void loop()
