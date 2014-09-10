@@ -18,6 +18,15 @@ void setup()
   init_CC2500_V2();    
 } 
 
+#define Bpacket 0x01
+#define Npacket 0x02
+#define Tpacket 0x03
+
+byte BroadcastPacket[] = {0x04,0xFF,0x01,NODE_ID_ADDRESS,Bpacket};
+byte HandShakeNextBroadcast[] = {0x02,NEXT_NODE_ADDRESS,Npacket};
+byte HandShakeNextTransmit[] = {0x02,NEXT_NODE_ADDRESS,Tpacket};
+
+
 byte state = INITIAL_STATE;
 #define LISTEN_4_PACKET 0x01
 #define BROADCAST 0x02
