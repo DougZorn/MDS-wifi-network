@@ -122,8 +122,35 @@ int listenForPacket(QueueList<byte> *list)
 	return 1;	
 }
 
+void WriteFixedTX_burst(char addr, byte value[], byte count)
+{  
+  addr = addr + 0x40;  
+  digitalWrite(10,LOW);
+  
+  while (digitalRead(MISO) == HIGH) {
+  };
+  SPI.transfer(addr);
 
-void WriteTX_burst(char addr, QueueList<byte> *list, byte count)
+  for(byte i = 0; i<count; i++)
+  {
+    SPI.transfer(value[i]);
+  }
+  digitalWrite(10,HIGH);
+}
+
+void sendFixedPacket(byte packet[], byte size)
+{  
+  SendStrobe(CC2500_IDLE); 
+  SendStrobe(CC2500_FTX);
+  WriteFixedTX_burst(CC2500_TXFIFO,packet,size);
+  //do not add code between the strobe and while loops otherwise it will miss the conditions !!!!!!!!!!!!!!
+  SendStrobe(CC2500_TX); 
+  while (!digitalRead(MISO)) { }    
+  while (digitalRead(MISO)) { }    
+  //do not add code between the strobe and while loops otherwise it will miss the conditions !!!!!!!!!!!!!!
+  SendStrobe(CC2500_IDLE); 
+}
+void WriteDynamicTX_burst(char addr, QueueList<byte> *list, byte count)
 {  
   addr = addr + 0x40;
   digitalWrite(10,LOW);  
@@ -137,12 +164,12 @@ void WriteTX_burst(char addr, QueueList<byte> *list, byte count)
   digitalWrite(10,HIGH);  
 }
 
-void sendPacket(QueueList<byte> *list, byte length)
+void sendDynamicLengthPacket(QueueList<byte> *list, byte length)
 {
 	byte loop = length + 1;
 	SendStrobe(CC2500_IDLE); 
 	SendStrobe(CC2500_FTX);	
-	WriteTX_burst(CC2500_TXFIFO,list,loop);		
+	WriteDynamicTX_burst(CC2500_TXFIFO,list,loop);		
 	SendStrobe(CC2500_TX); 
 	while (!digitalRead(MISO)) { }    
 	while (digitalRead(MISO)) { }    

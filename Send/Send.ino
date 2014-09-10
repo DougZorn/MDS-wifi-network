@@ -21,6 +21,6 @@ void loop()
   myQueue.push(0x2);
   myQueue.push(0xFF);
   myQueue.push(0x12);  
-  sendPacket(&myQueue,2); 
+  sendDynamicLengthPacket(&myQueue,2); 
 } 
 
