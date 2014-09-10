@@ -1,0 +1,9 @@
+#ifndef NODE_CONFIG_H
+#define NODE_CONFIG_H
+
+#define NODE_ID_ADDRESS 0x01
+#define NEXT_NODE_ADDRESS 0x02
+#define INITIAL_STATE 0x01
+#define HANDSHAKE_TIMEOUT 100
+
+#endif

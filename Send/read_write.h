@@ -3,6 +3,7 @@
 #include "cc2500_REG.h"
 #include <math.h>
 #include <QueueList.h>
+#include "node_config.h"
 
 #ifndef READ_WRITE_H
 #define READ_WRITE_H
@@ -19,7 +20,7 @@
 #define CC2500_RXFIFO_BURST  0xFF
 #define CC2500_SRES    0x30       // reset strobe 
 
-#define TX_TIMEOUT 100 // in milliseconds
+#define TX_TIMEOUT 1000 // in milliseconds
 long previousTXTimeoutMillis = 0;
 
 void WriteReg(char addr, char value) //see page 22 of cc2500 data sheet for timing
