@@ -63,9 +63,9 @@ void SendStrobe(char strobe){
   digitalWrite(10,HIGH); 
 }
 
-double convert_dBm(int RSSI)
+double convert_dBm(byte RSSI)
 {
-	int dBm = 0;	
+	byte dBm = 0;	
 	if (RSSI >= 128)
 	{
 		dBm = ((RSSI - 256)/2 - 71);
@@ -164,9 +164,8 @@ void WriteDynamicTX_burst(char addr, QueueList<byte> *list, byte count)
   digitalWrite(10,HIGH);  
 }
 
-void sendDynamicLengthPacket(QueueList<byte> *list, byte length)
-{
-	byte loop = length + 1;
+void sendDynamicLengthPacket(QueueList<byte> *list, byte loop)
+{	
 	SendStrobe(CC2500_IDLE); 
 	SendStrobe(CC2500_FTX);	
 	WriteDynamicTX_burst(CC2500_TXFIFO,list,loop);		
