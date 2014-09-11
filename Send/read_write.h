@@ -20,7 +20,6 @@
 #define CC2500_RXFIFO_BURST  0xFF
 #define CC2500_SRES    0x30       // reset strobe 
 
-
 long previousTXTimeoutMillis = 0;
 
 void WriteReg(char addr, char value) //see page 22 of cc2500 data sheet for timing
@@ -33,8 +32,6 @@ void WriteReg(char addr, char value) //see page 22 of cc2500 data sheet for timi
   SPI.transfer(value);
   digitalWrite(10,HIGH);
 }
-
-
 
 char ReadReg(char addr){
   addr = addr + 0x80;
@@ -89,6 +86,7 @@ double convert_distance(double dBm)
 
 int listenForPacket(QueueList<byte> *list)
 {
+	int PacketType = 0;
 	while(!(list->isEmpty()))
 	{
 		list->pop();
@@ -176,6 +174,14 @@ void sendDynamicLengthPacket(QueueList<byte> *list, byte length)
 	while (digitalRead(MISO)) { }    
 	//do not add code between the strobe and while loops otherwise it will miss the conditions !!!!!!!!!!!!!!
 	SendStrobe(CC2500_IDLE); 
+}
+
+void EmptyQueueList(QueueList<byte> *list)
+{
+	while(!list->isEmpty())
+	{
+		list->pop();
+	}
 }
 
 
