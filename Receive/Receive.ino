@@ -50,9 +50,9 @@ byte HandShakeNextTransmitDM[] = {0x02,NEXT_NODE_ADDRESS,NTDMpacket}; //bytes on
 byte state = INITIAL_STATE;
 //byte packet[] = {0x01, 0xFF};
 
-byte Dmatirx[LAST_NODE] = {0};
+int Dmatirx[LAST_NODE] = {0};
 byte NodeID = 0;
-byte RSSI = 0;
+int RSSI = 0;
 
 void loop()
 {
@@ -162,17 +162,18 @@ void loop()
 				NodeID = 0;
 				Serial.println("ACK_B received");
 				Serial.println("Storing data...");
-				Serial.println(myQueue2.isEmpty());
-				Serial.println(myQueue2.pop());
+				//Serial.println(myQueue2.isEmpty());
+				myQueue2.pop();
 				myQueue2.pop();
 				myQueue2.pop();
 				NodeID = myQueue2.pop()-1;
+				//Serial.println(NodeID);
 				myQueue2.pop();
 				RSSI = myQueue2.pop();
 				//myQueue2.pop();
 				Dmatirx[NodeID] = convert_dBm(RSSI);
-				Serial.println((signed)Dmatirx[NodeID],DEC);	
-				Serial.println(myQueue2.isEmpty());
+				//Serial.println(Dmatirx[NodeID],DEC);	
+				//Serial.println(myQueue2.isEmpty());
 				state = LISTEN_4_PACKET;
 				digitalWrite(9, LOW);
 				EmptyQueueList(&myQueue2); //this is just to test state transitions	
