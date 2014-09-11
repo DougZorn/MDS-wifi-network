@@ -8,6 +8,7 @@
 
 QueueList <byte> myQueue1;
 QueueList <byte> myQueue2;
+QueueList <byte> DMpacket;
 
 void setup()
 {
@@ -44,9 +45,9 @@ byte HandShakeNextTransmitDM[] = {0x02,NEXT_NODE_ADDRESS,NTDMpacket}; //bytes on
 byte state = INITIAL_STATE;
 //byte packet[] = {0x01, 0xFF};
 
-int Dmatirx[LAST_NODE] = {0};
+byte Dmatrix[LAST_NODE] = {0};
 byte NodeID = 0;
-int RSSI = 0;
+byte RSSI = 0;
 
 void loop()
 {
@@ -72,10 +73,10 @@ void loop()
 					myQueue1.pop();
 					NodeID = myQueue1.pop()-1;
 					myQueue1.pop();					
-					RSSI = myQueue1.pop();
+					Dmatrix[NodeID] = myQueue1.pop();
 					myQueue1.pop();
-					Dmatirx[NodeID] = convert_dBm(RSSI);
-					//Serial.println(Dmatirx[NodeID],DEC);
+					//Dmatrix[NodeID] = convert_dBm(RSSI); //lets convert at the other end
+					//Serial.println(Dmatrix[NodeID],DEC);
 					state = LISTEN_4_PACKET; //you need to write code to store the data
 				}
 				else if(NB1packet == myQueue1.count())
@@ -91,7 +92,8 @@ void loop()
 					Serial.println("DisM HandShake Received");
 					Serial.println("Sending Dis Matrix...");
 					#endif
-					sendFixedPacket(ACKDMPACKET,6);			
+					//sendFixedPacket(ACKDMPACKET,6);			//!!!!!!!!!!!!!!!
+					SendDMmatrix(Dmatrix,&DMpacket);
 					//insert code to transmit dis matrix to processing node
 					if (LAST_NODE == NODE)
 					{			   
@@ -124,6 +126,12 @@ void loop()
 			if (LAST_NODE == NODE)
 			{
 				//Sending DisMatrix
+				#if debug
+				Serial.println("DisM HandShake Received");
+				Serial.println("Sending Dis Matrix...");
+				#endif
+				//sendFixedPacket(ACKDMPACKET,6); //!!!!!!!!!!!!!!!
+				SendDMmatrix(Dmatrix,&DMpacket);
 				state = SEND_HANDSHAKE_PACKET_DM;
 			}
 			else
@@ -184,11 +192,11 @@ void loop()
 				myQueue2.pop();
 				NodeID = myQueue2.pop()-1;				
 				myQueue2.pop();
-				RSSI = myQueue2.pop();
+				Dmatrix[NodeID] = myQueue2.pop();
 				myQueue2.pop();
-				Dmatirx[NodeID] = convert_dBm(RSSI);
+				// Dmatrix[NodeID] = convert_dBm(RSSI);
 				#if debug
-				Serial.println(Dmatirx[NodeID],DEC);	
+				Serial.println(Dmatrix[NodeID],DEC);	
 				#endif
 				state = LISTEN_4_PACKET;
 				digitalWrite(9, LOW);

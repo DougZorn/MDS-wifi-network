@@ -164,11 +164,11 @@ void WriteDynamicTX_burst(char addr, QueueList<byte> *list, byte count)
   digitalWrite(10,HIGH);  
 }
 
-void sendDynamicLengthPacket(QueueList<byte> *list, byte loop)
+void sendDynamicLengthPacket(QueueList<byte> *list, byte forloop)
 {	
 	SendStrobe(CC2500_IDLE); 
 	SendStrobe(CC2500_FTX);	
-	WriteDynamicTX_burst(CC2500_TXFIFO,list,loop);		
+	WriteDynamicTX_burst(CC2500_TXFIFO,list,forloop);		
 	SendStrobe(CC2500_TX); 
 	while (!digitalRead(MISO)) { }    
 	while (digitalRead(MISO)) { }    
@@ -182,6 +182,20 @@ void EmptyQueueList(QueueList<byte> *list)
 	{
 		list->pop();
 	}
+}
+
+void SendDMmatrix(byte matrix[],QueueList<byte> *packet)
+{
+	byte forloop = 4 + NUMBER_OF_NODES;
+	packet->push(2+NUMBER_OF_NODES);// insert length
+	packet->push(0xFF);
+	packet->push(0x00);
+	packet->push(NODE_ID_ADDRESS);
+	for (int i = 0; i < NUMBER_OF_NODES; i++) // with 5 nodes this is currently between 2 and 5 inclusive
+	{
+		packet->push(matrix[i]);
+	}
+	sendDynamicLengthPacket(packet, forloop);
 }
 
 
