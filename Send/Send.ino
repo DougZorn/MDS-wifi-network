@@ -57,8 +57,8 @@ void loop()
 			if(listenForPacket(&myQueue1))	//edit return type to be one of the three posssible values
 			{
 				Serial.println("packet Received...");
-				Serial.print("myQueue count: ");
-                Serial.println(myQueue1.count(),HEX);				
+				//Serial.print("myQueue count: ");
+                //Serial.println(myQueue1.count(),HEX);				
 				if(Bpacket == myQueue1.count()) //expect peek to be 1 less then count. peek is the lenght which does not include itself
 				{
 					Serial.println("Storing data...");
@@ -90,7 +90,7 @@ void loop()
 		case BROADCAST:
 			Serial.println("Entered BROADCAST STATE");
 			digitalWrite(9, HIGH);
-			delay(1000);
+			//delay(1000);
 			sendFixedPacket(BroadcastPacket,5);			
 			if (LAST_NODE == NODE)
 			{
@@ -116,8 +116,10 @@ void loop()
 		case WAIT_4_ACK:
 			Serial.println("Entered WAIT_4_ACK STATE");
 			if(listenForPacket(&myQueue2)) //listenForPacket is blocking function that has timeout built in as return value 0
-			{
+			{				
 				Serial.println("ACK received");
+				//Serial.print("myQueue2 count: ");
+                //Serial.println(myQueue2.count(),HEX);
 				state = LISTEN_4_PACKET;
 				digitalWrite(9, LOW);
 				EmptyQueueList(&myQueue2); //this is just to test state transitions	
