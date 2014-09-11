@@ -72,9 +72,11 @@ void loop()
 					myQueue1.pop();
 					NodeID = myQueue1.pop()-1;
 					myQueue1.pop();
+					Serial.println();
 					RSSI = myQueue1.pop();
 					myQueue1.pop();
-					Dmatirx[NodeID] = convert_dBm(RSSI);					
+					Dmatirx[NodeID] = convert_dBm(RSSI);
+					Serial.println(Dmatirx[NodeID],DEC);
 					state = LISTEN_4_PACKET; //you need to write code to store the data
 				}
 				else if(NB1packet == myQueue1.count())
@@ -156,8 +158,21 @@ void loop()
 		case WAIT_4_ACK_B:
 			Serial.println("Entered WAIT_4_ACK_B STATE");
 			if(listenForPacket(&myQueue2)) //listenForPacket is blocking function that has timeout built in as return value 0
-			{				
-				Serial.println("ACK_B received");				
+			{	
+				NodeID = 0;
+				Serial.println("ACK_B received");
+				Serial.println("Storing data...");
+				Serial.println(myQueue2.isEmpty());
+				Serial.println(myQueue2.pop());
+				myQueue2.pop();
+				myQueue2.pop();
+				NodeID = myQueue2.pop()-1;
+				myQueue2.pop();
+				RSSI = myQueue2.pop();
+				//myQueue2.pop();
+				Dmatirx[NodeID] = convert_dBm(RSSI);
+				Serial.println((signed)Dmatirx[NodeID],DEC);	
+				Serial.println(myQueue2.isEmpty());
 				state = LISTEN_4_PACKET;
 				digitalWrite(9, LOW);
 				EmptyQueueList(&myQueue2); //this is just to test state transitions	
