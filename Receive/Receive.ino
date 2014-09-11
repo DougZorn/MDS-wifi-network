@@ -18,15 +18,9 @@ void setup()
 	SendStrobe(CC2500_SRES);
 	init_CC2500_V2();
 	pinMode(9, OUTPUT);
-	digitalWrite(9, LOW);
-	
-	/*
-	Serial.print("Node: ");
-	Serial.println(NODE_ID_ADDRESS, HEX);
-	Serial.print("Initial state: ");
-	Serial.println(INITIAL_STATE, HEX);
-	*/	
+	digitalWrite(9, LOW);	
 } 
+
 #define ACK_DM 0x08
 #define Bpacket 0x07
 #define NB1packet 0x06
@@ -71,12 +65,11 @@ void loop()
 					myQueue1.pop();
 					myQueue1.pop();
 					NodeID = myQueue1.pop()-1;
-					myQueue1.pop();
-					Serial.println();
+					myQueue1.pop();					
 					RSSI = myQueue1.pop();
 					myQueue1.pop();
 					Dmatirx[NodeID] = convert_dBm(RSSI);
-					Serial.println(Dmatirx[NodeID],DEC);
+					//Serial.println(Dmatirx[NodeID],DEC);
 					state = LISTEN_4_PACKET; //you need to write code to store the data
 				}
 				else if(NB1packet == myQueue1.count())
