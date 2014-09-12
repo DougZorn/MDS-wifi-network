@@ -83,6 +83,35 @@
 			#define NODE_ID_ADDRESS 0x05
 			#define NEXT_NODE_ADDRESS 0x01
 			#define INITIAL_STATE 0x05
+		#endif
+	#elif NUMBER_OF_NODES == 0x06
+		#if NODE == 0x01
+			#define NODE_ID_ADDRESS 0x01
+			#define NEXT_NODE_ADDRESS 0x02
+			#define INITIAL_STATE 0x04
+		#elif NODE == 0x02
+			#define NODE_ID_ADDRESS 0x02
+			#define NEXT_NODE_ADDRESS 0x03
+			#define INITIAL_STATE 0x04		
+		#elif NODE == 0x03
+			#define NODE_ID_ADDRESS 0x03
+			#define NEXT_NODE_ADDRESS 0x04
+			#define INITIAL_STATE 0x04
+		#elif NODE == 0x04
+			#define NODE_ID_ADDRESS 0x04
+			#define NEXT_NODE_ADDRESS 0x05
+			#define INITIAL_STATE 0x04
+		#elif NODE == 0x05
+			#define NODE_ID_ADDRESS 0x05
+			#define NEXT_NODE_ADDRESS 0x06
+			#define INITIAL_STATE 0x04
+		#elif NODE == 0x06
+			#define NODE_ID_ADDRESS 0x06
+			#define NEXT_NODE_ADDRESS 0x01
+			#define INITIAL_STATE 0x05	
 		#endif	
 	#endif //number of nodes
+	
+	
+	
 #endif //ifndef
