@@ -187,14 +187,18 @@ void EmptyQueueList(QueueList<byte> *list)
 void SendDMmatrix(byte matrix[],QueueList<byte> *packet)
 {
 	byte forloop = 4 + NUMBER_OF_NODES;
-	packet->push(2+NUMBER_OF_NODES);// insert length
-	packet->push(0xFF);
-	packet->push(0x00);
+	packet->push(3+NUMBER_OF_NODES);// insert length
+	packet->push(0xFF); //destination address
+	packet->push(0x00); //filler
 	packet->push(NODE_ID_ADDRESS);
 	for (int i = 0; i < NUMBER_OF_NODES; i++) // with 5 nodes this is currently between 2 and 5 inclusive
 	{
 		packet->push(matrix[i]);
+		//Serial.print("Push number: ");
+		//Serial.println(i);		
 	}
+	Serial.print("Total Size of DM packet (bytes) ");
+	Serial.println(packet->count());
 	sendDynamicLengthPacket(packet, forloop);
 }
 

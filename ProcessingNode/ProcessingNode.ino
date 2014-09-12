@@ -22,18 +22,18 @@ void setup() {
 void loop() {
 	if(listenForPacket(&packet))
 	{
-		//if(packet.peek()>=8)
-		//{
+		if(packet.count()>=8)
+		{
 			while(!packet.isEmpty())
 			{
 				Serial.print(packet.pop());
 				Serial.print(" ");
 			}
 			Serial.println();			
-		//}
-		/*else
+		}
+		else
 		{
 			EmptyQueueList(&packet);
-		}*/
+		}
 	}  
 }

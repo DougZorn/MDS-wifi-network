@@ -3,7 +3,7 @@
 #define debug 0x01
 
 //define node # when programming individual nodes
-#define NODE 0x01
+#define NODE 0x02
 //define number of nodes in network
 #define NUMBER_OF_NODES 0x02
 //Packet timeout in milliseconds
