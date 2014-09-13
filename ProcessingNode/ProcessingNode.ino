@@ -24,10 +24,13 @@ void loop() {
 	{
 		if(packet.count()>=8)
 		{
+			packet.pop();
+			packet.pop();
+			packet.pop();
 			while(!packet.isEmpty())
 			{
 				Serial.print(packet.pop());
-				Serial.print(" ");
+				Serial.print(",");
 			}
 			Serial.println();			
 		}
