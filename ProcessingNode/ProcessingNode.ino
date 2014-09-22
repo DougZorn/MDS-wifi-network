@@ -12,11 +12,11 @@ void setup() {
 	Serial.begin(9600);
 	SPI.setClockDivider(SPI_CLOCK_DIV2);
 	SPI.setDataMode(SPI_MODE0);  
-	SPI.begin();  
+	SPI.begin();
+        pinMode(2, OUTPUT);
+        digitalWrite(2, LOW);
 	SendStrobe(CC2500_SRES);
 	init_CC2500_V2();
-	pinMode(9, OUTPUT);
-	digitalWrite(9, LOW);
 }
 
 void loop() {

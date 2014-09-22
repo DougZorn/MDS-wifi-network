@@ -24,43 +24,43 @@ long previousTXTimeoutMillis = 0;
 
 void WriteReg(char addr, char value) //see page 22 of cc2500 data sheet for timing
 {
-  digitalWrite(10,LOW);
+  digitalWrite(2,LOW);
   while (digitalRead(MISO) == HIGH)
   {
   };    
   SPI.transfer(addr);
   SPI.transfer(value);
-  digitalWrite(10,HIGH);
+  digitalWrite(2,HIGH);
 }
 
 char ReadReg(char addr){
   addr = addr + 0x80;
-  digitalWrite(10,LOW);
+  digitalWrite(2,LOW);
   while (digitalRead(MISO) == HIGH) {
     };
   char x = SPI.transfer(addr);
   char y = SPI.transfer(0);
-  digitalWrite(10,HIGH);
+  digitalWrite(2,HIGH);
   return y;  
 }
 
 char ReadOnly_Reg(char addr){
   addr = addr + 0xC0;
-  digitalWrite(10,LOW);
+  digitalWrite(2,LOW);
   while (digitalRead(MISO) == HIGH) {
     };
   char x = SPI.transfer(addr);
   char y = SPI.transfer(0);
-  digitalWrite(10,HIGH);
+  digitalWrite(2,HIGH);
   return y;  
 }
 
 void SendStrobe(char strobe){
-  digitalWrite(10,LOW);  
+  digitalWrite(2,LOW);  
   while (digitalRead(MISO) == HIGH) {
   };  
   SPI.transfer(strobe);
-  digitalWrite(10,HIGH); 
+  digitalWrite(2,HIGH); 
 }
 
 double convert_dBm(byte RSSI)
@@ -125,7 +125,7 @@ int listenForPacket(QueueList<byte> *list)
 void WriteFixedTX_burst(char addr, byte value[], byte count)
 {  
   addr = addr + 0x40;  
-  digitalWrite(10,LOW);
+  digitalWrite(2,LOW);
   
   while (digitalRead(MISO) == HIGH) {
   };
@@ -135,7 +135,7 @@ void WriteFixedTX_burst(char addr, byte value[], byte count)
   {
     SPI.transfer(value[i]);
   }
-  digitalWrite(10,HIGH);
+  digitalWrite(2,HIGH);
 }
 
 void sendFixedPacket(byte packet[], byte size)
@@ -153,7 +153,7 @@ void sendFixedPacket(byte packet[], byte size)
 void WriteDynamicTX_burst(char addr, QueueList<byte> *list, byte count)
 {  
   addr = addr + 0x40;
-  digitalWrite(10,LOW);  
+  digitalWrite(2,LOW);  
   while (digitalRead(MISO) == HIGH) {
   };
   SPI.transfer(addr); 
@@ -161,7 +161,7 @@ void WriteDynamicTX_burst(char addr, QueueList<byte> *list, byte count)
   {
     SPI.transfer(list->pop());
   }
-  digitalWrite(10,HIGH);  
+  digitalWrite(2,HIGH);  
 }
 
 void sendDynamicLengthPacket(QueueList<byte> *list, byte forloop)
