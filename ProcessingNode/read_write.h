@@ -109,7 +109,7 @@ int listenForPacket(QueueList<byte> *list)
 	{    
 		return 0;    
 	}
-	list->push(ReadReg(CC2500_RXFIFO)+2);	
+	list->push(ReadReg(CC2500_RXFIFO));	
 	int loopCount = list->peek(); //+2 to loopCount due to append of RSSI and LQI
 	
 	for(int i = 0; i <loopCount; i++)

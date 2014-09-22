@@ -25,6 +25,8 @@ void loop() {
 		if(packet.count()>=8)
 		{
 			packet.pop();
+                        packet.pop();
+                        packet.pop();
 			packet.pop();
 			packet.pop();
 			while(!packet.isEmpty())

@@ -131,7 +131,7 @@ void loop()
 				Serial.println("Sending Dis Matrix...");
 				#endif
 				//sendFixedPacket(ACKDMPACKET,6); //!!!!!!!!!!!!!!!
-				SendDMmatrix(Dmatrix,&DMpacket);
+				//SendDMmatrix(Dmatrix,&DMpacket); //// NEW packet MARKER????
 				state = SEND_HANDSHAKE_PACKET_DM;
 			}
 			else
