@@ -1,0 +1,3 @@
+y = read.csv("c:/Python27/testwrite.csv" , header = F)
+y <- y [,-dim(y)[2]] #removes nonsense data from terminal
+y <- y [,-1]
