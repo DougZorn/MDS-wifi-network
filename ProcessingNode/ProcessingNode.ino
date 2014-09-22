@@ -13,8 +13,8 @@ void setup() {
 	SPI.setClockDivider(SPI_CLOCK_DIV2);
 	SPI.setDataMode(SPI_MODE0);  
 	SPI.begin();
-        pinMode(2, OUTPUT);
-        digitalWrite(2, LOW);
+    pinMode(2, OUTPUT);
+    digitalWrite(2, LOW);
 	SendStrobe(CC2500_SRES);
 	init_CC2500_V2();
 }
