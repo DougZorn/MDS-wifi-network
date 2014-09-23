@@ -39,10 +39,11 @@ for(i in 1: n){
 }
 
 x11()
-plot(Z[,1], Z[,2], xlab="feet", ylab="feet", main="Map", type="n",xlim=c(-10,10),ylim=c(-10,10))
+par(mar=c(4,4,1,1)+0.1)
+plot(Z[,1], Z[,2], xlab="feet", ylab="feet", main="Map", type="n",xlim=c(-15,15),ylim=c(-15,15))
 points(truth[1:n,1],truth[1:n,2], col=1, pch=19, cex=1.5)
 text(truth[1:n,1],truth[1:n,2],labels = row(fit$points), pos=4,cex=.75)
 points(Z[,1],Z[,2], col=2, pch=20)
 text(Z[,1],Z[,2],labels = row(fit$points), pos=4, col=2,cex=.75)
-legend(2,4,legend=c("Truth", "Reconst"), pch=c(19,20), col=c(1,2))
+legend(7,7,legend=c("Truth", "Reconst"), pch=c(19,20), col=c(1,2))
 Sys.sleep(5)
