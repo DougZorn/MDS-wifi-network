@@ -5,7 +5,7 @@
 //define node # when programming individual nodes
 #define NODE 0x01
 //define number of nodes in network
-#define NUMBER_OF_NODES 0x02
+#define NUMBER_OF_NODES 0x07
 //Packet timeout in milliseconds
 #define TX_TIMEOUT 150 
 #define LAST_NODE NUMBER_OF_NODES

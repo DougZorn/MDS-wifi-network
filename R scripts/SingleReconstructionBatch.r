@@ -7,7 +7,7 @@ coA = 1.518
 coB = 0.270
 StandarDev = 0.02798
 
-truth = matrix(c(0, -2, 0, 0, 1, 0, -1, 1, 1, 1, -1, -1), nrow=6, ncol=2, byrow=T)
+truth = matrix(c(0, -2, 0, 0, 1, 0, -1, 1, 1, 1, -1, -1,2,2), nrow=7, ncol=2, byrow=T) # define on a per basis
 rawRead <- .5*(rawRead + t(rawRead)) 
 for(v in 1:n){
 	for(w in 1:n){
