@@ -1,4 +1,4 @@
-rawRead = read.csv("c:/Python27/testwrite.csv" , header = F)
+rawRead = read.csv("F:/GitHub/MDS-wifi-network/R scripts/testwrite.csv" , header = F)
 rawRead <- rawRead [,-dim(rawRead)[2]] #removes nonsense data from terminal
 rawRead <- rawRead [,-1]
 n = dim(rawRead)[1]
