@@ -1,6 +1,7 @@
 import serial
 ser = serial.Serial(2)
 print ser.name
+ser.flushInput()
 f = open('testwrite.csv' , 'w')
 
 while ser.read() != '1':
